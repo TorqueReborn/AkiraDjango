@@ -1,8 +1,13 @@
+# REST Framework
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
+# Django
 from django.contrib.auth import authenticate
+
+# JWT
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class LoginAPIView(APIView):
     def post(self, request):
@@ -17,4 +22,9 @@ class LoginAPIView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        return Response({"message": "Authenticated successfully"})
+        token = RefreshToken.for_user(user)
+        
+        return Response({
+            'access': str(token.access_token),
+            'refresh': str(token)
+        })
