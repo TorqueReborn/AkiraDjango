@@ -31,12 +31,10 @@ class LoginView(APIView):
         )
 
         response.set_cookie(
-            key='refresh_token',
-            value=str(token),
-            httponly=True,
-            secure=True,
-            samesite="Strict",
-            path="/api/refresh/"
+            key="refresh_token", 
+            value=str(token), 
+            samesite="None",
+            secure=True
         )
         
         return response
@@ -60,3 +58,8 @@ class RefreshTokenView(APIView):
                 {'error': 'Invalid refresh token'},
                 status=status.HTTP_401_UNAUTHORIZED
             )
+
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response({'message': 'Logged out'})
+        response.delete_cookie('refresh_token', path='/api/refresh/')

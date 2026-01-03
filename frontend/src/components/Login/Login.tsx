@@ -12,9 +12,23 @@ const Login = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    const handleClick = async (e: React.FormEvent) => {
+        e.preventDefault();
+        let response = await fetch('http://127.0.0.1:8000/api/refresh/', {
+            method: "POST",
+            credentials: "include",
+        });
+
+        if (!response.ok) {
+            throw new Error("Login failed");
+        }
+
+        console.log(await response.json());
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const response = await fetch('http://127.0.0.1:8000/api/login/', {
+        await fetch('http://127.0.0.1:8000/api/login/', {
             method: "POST",
             headers: {
             "Content-Type": "application/json",
@@ -23,13 +37,12 @@ const Login = () => {
             username: formData.username,
             password: formData.password,
             }),
-        });
-
-        if (!response.ok) {
-            throw new Error("Login failed");
-        }
-
-        console.log(await response.json());
+            credentials: "include",
+        }).then(response => response.json())
+        .then(data => {
+            const accessToken = data.access_token;
+            localStorage.setItem('access_token', accessToken);
+        });;
     }
 
     return (
@@ -55,6 +68,7 @@ const Login = () => {
     />
 
     <button type="submit">Login</button>
+    <button onClick={handleClick}>Refresh</button>
     </form>
   );
 }
