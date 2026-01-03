@@ -116,6 +116,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+# Custom User Model
+AUTH_USER_MODEL = 'accounts.User'
+
 # Media
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
