@@ -23,8 +23,20 @@ class LoginAPIView(APIView):
             )
         
         token = RefreshToken.for_user(user)
+        access_token = str(token.access_token)
+
+        response = Response(
+            {"access_token": access_token},
+            status=status.HTTP_200_OK
+        )
+
+        response.set_cookie(
+            key='refresh_token',
+            value=str(token),
+            httponly=True,
+            secure=True,
+            samesite="Strict",
+            path="/api/refresh/"
+        )
         
-        return Response({
-            'access': str(token.access_token),
-            'refresh': str(token)
-        })
+        return response
