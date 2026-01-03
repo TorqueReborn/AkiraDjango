@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate
 # JWT
 from rest_framework_simplejwt.tokens import RefreshToken
 
-class LoginAPIView(APIView):
+class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
