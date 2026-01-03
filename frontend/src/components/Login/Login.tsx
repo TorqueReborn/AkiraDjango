@@ -12,9 +12,24 @@ const Login = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Login Data: ", formData);
+        const response = await fetch('http://127.0.0.1:8000/api/login/', {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+            username: formData.username,
+            password: formData.password,
+            }),
+        });
+
+        if (!response.ok) {
+            throw new Error("Login failed");
+        }
+
+        console.log(await response.json());
     }
 
     return (
