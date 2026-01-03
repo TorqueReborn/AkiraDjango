@@ -40,3 +40,23 @@ class LoginView(APIView):
         )
         
         return response
+
+class RefreshTokenView(APIView):
+    def post(self, request):
+        refresh_token = request.COOKIES.get('refresh_token')
+
+        if not refresh_token:
+            return Response(
+                {'error': 'No refresh token'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+        
+        try:
+            refresh = RefreshToken(refresh_token)
+            access_token = str(refresh.access_token)
+            return Response({"access_token": access_token})
+        except Exception:
+            return Response(
+                {'error': 'Invalid refresh token'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
