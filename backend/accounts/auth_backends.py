@@ -12,12 +12,8 @@ class TokenBackend(ModelBackend):
                 token_obj = Token.objects.select_related('user').get(token=token)
             except Token.DoesNotExist:
                 return None
-            
             user = token_obj.user
-
             if username and user.username != username:
                 return None
-            
-            return user
-        
+            return user   
         return super().authenticate(request, username=username, password=password, **kwargs)
