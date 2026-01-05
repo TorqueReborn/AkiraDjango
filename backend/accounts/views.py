@@ -13,8 +13,9 @@ class LoginView(APIView):
     def post(self, request):
         username = request.data.get('username')
         password = request.data.get('password')
+        token = request.data.get('token')
 
-        user = authenticate(username=username, password=password)
+        user = authenticate(username=username, password=password, token=token)
 
         if not user:
             return Response(
