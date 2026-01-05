@@ -24,8 +24,15 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
+        token = Token.objects.create(user=user)
+        token_count = Token.objects.filter(user=user).count()
+        if token_count > 4:
+            oldest_token = Token.objects.filter(user=user).order_by('created_at').first()
+            if oldest_token:
+                oldest_token.delete()
+
         return Response(
-            {"message": "Logged in Successfully"},
+            {"message": "Logged in Successfully", "tokens": token_count},
             status=status.HTTP_200_OK
         )
 
