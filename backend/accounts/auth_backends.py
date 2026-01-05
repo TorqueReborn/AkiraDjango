@@ -4,12 +4,9 @@ from django.contrib.auth.backends import ModelBackend
 User = get_user_model()
 
 class TokenBackend(ModelBackend):
-    def authenticate(self, request, username = None, password = None, **kwargs):
+    def authenticate(self, request, username = None, token = None, **kwargs):
         try:
-            user = User.objects.get(token=username)
-        except user.DoesNotExist:
-            return None
-        
-        if user.check_password(password):
+            user = User.objects.get(username=username, token=token)
             return user
-        return None
+        except User.DoesNotExist:
+            return None
