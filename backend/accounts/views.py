@@ -28,6 +28,10 @@ class LoginView(APIView):
             status=status.HTTP_200_OK
         )
 
+class RegisterView(APIView):
+    def post(self, request):
+        return Response({"message": "This is register view"})
+
 class LogoutView(APIView):
     def post(self, request):
         token = request.data.get('token')
