@@ -86,6 +86,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
+AUTHENTICATION_BACKENDS = [
+    'accounts.auth_backends.TokenBackend',
+]
+
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
