@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate
 
 # Custom
 from .models import Token
+from .serializers import UserSerializer
 
 class LoginView(APIView):
     def post(self, request):
@@ -30,7 +31,14 @@ class LoginView(APIView):
 
 class RegisterView(APIView):
     def post(self, request):
-        return Response({"message": "This is register view"})
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(
+                {"message": "User created successfully"},
+                status=status.HTTP_201_CREATED
+            )
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LogoutView(APIView):
     def post(self, request):
