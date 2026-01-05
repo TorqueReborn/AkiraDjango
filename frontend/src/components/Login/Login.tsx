@@ -1,8 +1,8 @@
 import { useState } from "react";
-import type { LoginFormData } from "./Login.types";
+import type { AuthData } from "../../types/auth";
 
 const Login = () => {
-    const [formData, setFormData] = useState<LoginFormData>({
+    const [formData, setFormData] = useState<AuthData>({
         username: '',
         password: ''
     });
