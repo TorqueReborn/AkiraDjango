@@ -1,7 +1,7 @@
 import { useState } from "react";
 import type { AuthData } from "../../types/auth";
 
-const Login = () => {
+const Authenticate = () => {
     const [formData, setFormData] = useState<AuthData>({
         username: '',
         password: ''
@@ -61,4 +61,4 @@ const Login = () => {
 }
 
 
-export default Login;
+export default Authenticate;

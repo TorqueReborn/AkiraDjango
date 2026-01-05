@@ -1,7 +1,7 @@
-import LoginPage from "./pages/LoginPage";
+import AuthenticationPage from "./pages/AuthenticationPage";
 
 const Login: React.FC = () => {
-    return <LoginPage/>;
+    return <AuthenticationPage/>;
 };
 
 export default Login;
