@@ -6,14 +6,14 @@ from rest_framework.response import Response
 # Django
 from django.contrib.auth import authenticate
 
-# JWT
-from rest_framework_simplejwt.tokens import RefreshToken
+# Custom
+from .models import Token
 
 class LoginView(APIView):
     def post(self, request):
+        token = request.data.get('token')
         username = request.data.get('username')
         password = request.data.get('password')
-        token = request.data.get('token')
 
         user = authenticate(username=username, password=password, token=token)
 
@@ -23,44 +23,21 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        token = RefreshToken.for_user(user)
-        access_token = str(token.access_token)
-
-        response = Response(
-            {"access_token": access_token},
+        return Response(
+            {"message": "Logged in Successfully"},
             status=status.HTTP_200_OK
         )
 
-        response.set_cookie(
-            key="refresh_token", 
-            value=str(token), 
-            samesite="None",
-            secure=True
-        )
-        
-        return response
-
-class RefreshTokenView(APIView):
-    def post(self, request):
-        refresh_token = request.COOKIES.get('refresh_token')
-
-        if not refresh_token:
-            return Response(
-                {'error': 'No refresh token'},
-                status=status.HTTP_401_UNAUTHORIZED
-            )
-        
-        try:
-            refresh = RefreshToken(refresh_token)
-            access_token = str(refresh.access_token)
-            return Response({"access_token": access_token})
-        except Exception:
-            return Response(
-                {'error': 'Invalid refresh token'},
-                status=status.HTTP_401_UNAUTHORIZED
-            )
-
 class LogoutView(APIView):
     def post(self, request):
-        response = Response({'message': 'Logged out'})
-        response.delete_cookie('refresh_token', path='/api/refresh/')
+        token = request.data.get('token')
+        username = request.data.get('username')
+        if token and username:
+            try:
+                token_obj = Token.objects.select_related('user').get(token=token)
+                if token_obj:
+                    token_obj.delete()
+                    return Response({"message": "Token deleted successfully"})
+            except Token.DoesNotExist:
+                return Response({"message": "Unable to delete token"})
+        return Response({"message": "send token and username and try again"})
