@@ -6,7 +6,7 @@ class User(AbstractUser):
         return self.username
 
 class Token(models.Model):
-    token = models.TextField(blank=True)
+    token = models.TextField(blank=True, db_index=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tokens')
 
     def __str__(self):
