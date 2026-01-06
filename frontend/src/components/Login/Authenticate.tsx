@@ -22,6 +22,7 @@ const Authenticate = () => {
                 username: formData.username,
                 password: formData.password,
             }),
+            credentials: "include",
         }).then(response => response.json())
         .then(data => {
             console.log(data);
@@ -40,11 +41,7 @@ const Authenticate = () => {
                 password: formData.password,
             }),
             credentials: "include",
-        }).then(response => response.json())
-            .then(data => {
-                const accessToken = data.access_token;
-                localStorage.setItem('access_token', accessToken);
-            });;
+        })
     }
 
     return (
