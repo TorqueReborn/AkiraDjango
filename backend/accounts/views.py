@@ -13,6 +13,7 @@ from .serializers import UserSerializer
 class LoginView(APIView):
     def post(self, request):
         agent = request.META.get('HTTP_USER_AGENT', 'Anonymous')
+        
         if "Android" in agent:
             agent = "Android"
         elif "Windows" in agent:
@@ -23,6 +24,7 @@ class LoginView(APIView):
             agent = "macOS"
         else:
             agent = "Anonynous"
+            
         token = request.data.get('token')
         username = request.data.get('username')
         password = request.data.get('password')

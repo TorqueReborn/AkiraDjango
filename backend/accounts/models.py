@@ -9,6 +9,7 @@ class User(AbstractUser):
 class Token(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     token = models.TextField(default=uuid.uuid4, db_index=True)
+    os = models.CharField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='tokens')
 
     def __str__(self):
