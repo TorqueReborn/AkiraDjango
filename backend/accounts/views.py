@@ -9,22 +9,10 @@ from django.contrib.auth import authenticate
 # Custom
 from .models import Token
 from .serializers import UserSerializer
+from .utils import get_agent
 
 class LoginView(APIView):
     def post(self, request):
-        agent = request.META.get('HTTP_USER_AGENT', 'Anonymous')
-        
-        if "Android" in agent:
-            agent = "Android"
-        elif "Windows" in agent:
-            agent = "Windows"
-        elif "Linux" in agent:
-            agent = "Linux"
-        elif "Mac" in agent:
-            agent = "macOS"
-        else:
-            agent = "Anonynous"
-            
         token = request.data.get('token')
         username = request.data.get('username')
         password = request.data.get('password')
@@ -37,7 +25,7 @@ class LoginView(APIView):
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
-        token = Token.objects.create(user=user)
+        token = Token.objects.create(user=user, os=get_agent(request))
         token_count = Token.objects.filter(user=user).count()
         if token_count > 4:
             oldest_token = Token.objects.filter(user=user).order_by('created_at').first()
@@ -54,7 +42,7 @@ class RegisterView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            token = Token.objects.create(user=user)
+            token = Token.objects.create(user=user, os=get_agent(request))
             return Response(
                 {"token": token.token},
                 status=status.HTTP_201_CREATED
