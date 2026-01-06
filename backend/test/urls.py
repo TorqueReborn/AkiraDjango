@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import test_api, cookie
+from .views import test_api, set_cookie
 
 urlpatterns = [
     path('', test_api),
-    path('cookie/', cookie)
+    path('set_cookie/', set_cookie)
 ]

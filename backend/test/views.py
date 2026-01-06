@@ -9,7 +9,7 @@ def test_api(request):
     })
 
 @api_view(['GET'])
-def cookie(request):
+def set_cookie(request):
     response = Response(
         {'message': 'This is cookie response'}
     )
