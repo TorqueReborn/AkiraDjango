@@ -6,7 +6,7 @@ from .models import Token
 User = get_user_model()
 
 class TokenBackend(ModelBackend):
-    def authenticate(self, request, username = None, password=None, token = None, **kwargs):
+    def authenticate(self, request, username=None, password=None, token=None, **kwargs):
         if token:
             try:
                 token_obj = Token.objects.select_related('user').get(token=token)
@@ -15,5 +15,5 @@ class TokenBackend(ModelBackend):
             user = token_obj.user
             if username and user.username != username:
                 return None
-            return user   
+            return user
         return super().authenticate(request, username=username, password=password, **kwargs)

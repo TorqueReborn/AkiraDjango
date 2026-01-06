@@ -12,6 +12,22 @@ const Authenticate = () => {
         setFormData((prev) => ({ ...prev, [name]: value }));
     };
 
+    const register = async () => {
+        await fetch('http://127.0.0.1:8000/api/register/', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                username: formData.username,
+                password: formData.password,
+            }),
+        }).then(response => response.json())
+        .then(data => {
+            console.log(data);
+        });;
+    }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         await fetch('http://127.0.0.1:8000/api/login/', {
@@ -55,6 +71,7 @@ const Authenticate = () => {
                 />
 
                 <button type="submit">Login</button>
+                <button onClick={register}>Register</button>
             </form>
         </div>
     );
