@@ -13,7 +13,7 @@ const Authenticate = () => {
     };
 
     const register = async () => {
-        await fetch('http://127.0.0.1:8000/api/register/', {
+        const response = await fetch('http://127.0.0.1:8000/api/register/', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -21,17 +21,14 @@ const Authenticate = () => {
             body: JSON.stringify({
                 username: formData.username,
                 password: formData.password,
-            }),
-            credentials: "include",
-        }).then(response => response.json())
-        .then(data => {
-            console.log(data);
-        });;
+            })
+        })
+        console.log(await response.json())
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        await fetch('http://127.0.0.1:8000/api/login/', {
+        const response = await fetch('http://127.0.0.1:8000/api/login/', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -39,9 +36,9 @@ const Authenticate = () => {
             body: JSON.stringify({
                 username: formData.username,
                 password: formData.password,
-            }),
-            credentials: "include",
+            })
         })
+        console.log(await response.json())
     }
 
     return (
