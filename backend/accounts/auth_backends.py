@@ -1,9 +1,6 @@
-from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
 
 from .models import Token
-
-User = get_user_model()
 
 class TokenBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, token=None, **kwargs):
