@@ -104,3 +104,27 @@ def details(request):
     }
     response = get_response_json(QUERY,VARIABLES)
     return Response(response['data']['show'])
+
+@api_view(['GET'])
+def watch(request):
+    QUERY = """
+    query($showId: String!, $translationType: VaildTranslationTypeEnumType!, $episodeString: String!){
+        episode(showId: $showId, translationType: $translationType, episodeString: $episodeString) {
+            episodeString,
+            sourceUrls,
+            episodeInfo{
+                thumbnails,
+                description,
+                vidInforssub,
+                vidInforsdub
+            },
+        }
+    }
+    """
+    VARIABLES = {
+        "showId": request.GET.get('id'),
+        "translationType": 'sub',
+        "episodeString": '1'
+    }
+    response = get_response_json(QUERY,VARIABLES)
+    return Response(response)
