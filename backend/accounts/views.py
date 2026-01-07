@@ -18,13 +18,6 @@ def home(request):
     return Response({"message": "This is home view"})
 
 @api_view(['POST'])
-def checkToken(request):
-   token = request.data.get('token') 
-   username = request.data.get('username')
-
-   
-
-@api_view(['POST'])
 def login(request):
     token = request.data.get('token')
     username = request.data.get('username')
