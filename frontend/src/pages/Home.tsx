@@ -15,7 +15,7 @@ const Home = () => {
         const getRecentAnime = async () => {
             const response = await fetch('http://127.0.0.1:8000/')
             const json = await response.json()
-            setShows(json.data.shows.edges)
+            setShows(json)
         }
         getRecentAnime()
     }, [])
