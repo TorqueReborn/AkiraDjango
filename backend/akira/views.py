@@ -53,3 +53,37 @@ def trending(request):
     }
     response = get_response_json(QUERY,VARIABLES)
     return Response(item['anyCard'] for item in response['data']['queryPopular']['recommendations'])
+
+@api_view(['GET'])
+def spotlight(request):
+    QUERY = """
+        query($type: VaildPopularTypeEnumType!, $size: Int!, $dateRange: Int!){
+            queryPopular(type: $type, size: $size, dateRange: $dateRange) {
+                recommendations {
+                    anyCard {
+                        _id
+                    }
+                }
+            }
+        }
+    """
+    VARIABLES = {
+        "type": "anime",
+        "size": 20,
+        "dateRange": 1
+    }
+    response = get_response_json(QUERY,VARIABLES)
+    recommendations = response['data']['queryPopular']['recommendations']
+    ids = [recommendation['anyCard']['_id'] for recommendation in recommendations]
+    QUERY = """
+        query($ids: [String!]!){
+            showsWithIds(ids: $ids) {
+                _id,name,englishName,banner
+            }
+        }
+    """
+    VARIABLES = {
+        "ids": ids
+    }
+    response = get_response_json(QUERY,VARIABLES)
+    return Response(response)
