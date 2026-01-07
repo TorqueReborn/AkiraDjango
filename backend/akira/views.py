@@ -25,6 +25,25 @@ def get_response_json(query: str, variables: dict):
     return response.json()
 
 @api_view(['GET'])
+def recent(request):
+    QUERY = """
+    query($search: SearchInput!){
+        shows(search: $search) {
+            edges {
+                _id,name,englishName,thumbnail
+            }
+        }
+    }
+    """
+    VARIABLES = {
+        "search": {
+            "sortBy": "Recent"
+        }
+    }
+    data = get_response_json(QUERY,VARIABLES)
+    return Response(data)
+
+@api_view(['GET'])
 def test_api(request):
     QUERY = """
     query($showId: String!, $translationType: VaildTranslationTypeEnumType!, $episodeString: String!){
