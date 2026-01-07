@@ -127,4 +127,11 @@ def watch(request):
         "episodeString": '1'
     }
     response = get_response_json(QUERY,VARIABLES)
-    return Response(response)
+    sourceUrls = response['data']['episode']['sourceUrls']
+    sources = []
+    for source in sourceUrls:
+        if "--" in source['sourceUrl']:
+            decrypted = decrypt(source['sourceUrl'])
+            if not "https" in decrypted:
+                sources.append("https://allanime.day" + decrypt(source['sourceUrl']).replace("clock", "clock.json"))
+    return Response(sources)
