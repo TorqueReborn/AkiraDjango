@@ -40,8 +40,20 @@ def recent(request):
             "sortBy": "Recent"
         }
     }
-    data = get_response_json(QUERY,VARIABLES)
-    return Response(data)
+    response = get_response_json(QUERY,VARIABLES)
+    edges = response["data"]["shows"]["edges"]
+
+    fixed_thumbnails = [
+        {
+            **edge,
+            "englishName": edge["englishName"] or edge["name"],
+            "thumbnail": edge["thumbnail"]
+            if edge["thumbnail"].startswith("http")
+            else f"https://wp.youtube-anime.com/aln.youtube-anime.com/{edge['thumbnail']}"
+        }
+        for edge in edges
+    ]
+    return Response(fixed_thumbnails)
 
 @api_view(['GET'])
 def test_api(request):
