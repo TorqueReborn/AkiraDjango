@@ -3,7 +3,7 @@ import Test from "./components/Test/Test";
 import Home from "./pages/Home";
 
 const Login: React.FC = () => {
-    return <Test/>;
+    return <Home/>;
 };
 
 export default Login;
