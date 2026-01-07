@@ -32,10 +32,14 @@ class LoginView(APIView):
             if oldest_token:
                 oldest_token.delete()
 
-        return Response(
+        response = Response(
             {"token": token.token},
             status=status.HTTP_201_CREATED
         )
+
+        response.set_cookie("token", "This is a token")
+
+        return response
 
 class RegisterView(APIView):
     def post(self, request):
