@@ -103,4 +103,4 @@ def details(request):
         "id": request.GET.get('id')
     }
     response = get_response_json(QUERY,VARIABLES)
-    return Response(response)
+    return Response(response['data']['show'])
