@@ -2,34 +2,37 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.decorators import api_view
 
 # Django
 from django.contrib.auth import authenticate
 
 # Custom
 from .models import Token
+from .utils import generate_token
 from .serializers import UserSerializer
-from .utils import get_agent, generate_token
 
-class LoginView(APIView):
-    def post(self, request):
-        token = request.data.get('token')
-        username = request.data.get('username')
-        password = request.data.get('password')
+@api_view(['POST'])
+def login(request):
+    token = request.data.get('token')
+    username = request.data.get('username')
+    password = request.data.get('password')
 
-        user = authenticate(username=username, password=password, token=token)
+    user = authenticate(username=username, password=password, token=token)
 
-        if not user:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
-        
-        token = generate_token(request, user)
-        token_count = Token.objects.filter(user=user).count()
-        if token_count > 4:
-            Token.objects.filter(user=user).order_by('created_at').first().delete()
+    if not user:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+    
+    token = generate_token(request, user)
+    token_count = Token.objects.filter(user=user).count()
 
-        response = Response()
-        response.set_cookie("token", token.token, samesite="None", secure=True)
-        return response
+    # A user can connect only 4 devices at once
+    if token_count > 4:
+        Token.objects.filter(user=user).order_by('created_at').first().delete()
+
+    response = Response()
+    response.set_cookie("token", token.token, samesite="None", secure=True)
+    return response
 
 class HomeView(APIView):
     def get(self, request):
