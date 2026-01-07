@@ -34,33 +34,33 @@ def login(request):
     response.set_cookie("token", token.token, samesite="None", secure=True)
     return response
 
-class HomeView(APIView):
-    def get(self, request):
-        print(request.COOKIES)
-        return Response({"message": "This is home view"})
+@api_view(['GET'])
+def home(request):
+    print(request.COOKIES)
+    return Response({"message": "This is home view"})
 
-class RegisterView(APIView):
-    def post(self, request):
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.save()
-            token = generate_token(request, user)
-            return Response(
-                {"token": token.token},
-                status=status.HTTP_201_CREATED
-            )
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['POST'])
+def register(request):
+    serializer = UserSerializer(data=request.data)
+    if serializer.is_valid():
+        user = serializer.save()
+        token = generate_token(request, user)
+        return Response(
+            {"token": token.token},
+            status=status.HTTP_201_CREATED
+        )
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class LogoutView(APIView):
-    def post(self, request):
-        token = request.data.get('token')
-        username = request.data.get('username')
-        if token and username:
-            try:
-                token_obj = Token.objects.select_related('user').get(token=token)
-                if token_obj:
-                    token_obj.delete()
-                    return Response({"message": "Token deleted successfully"})
-            except Token.DoesNotExist:
-                return Response({"message": "Unable to delete token"})
-        return Response({"message": "send token and username and try again"})
+@api_view(['POST'])
+def logout(request):
+    token = request.data.get('token')
+    username = request.data.get('username')
+    if token and username:
+        try:
+            token_obj = Token.objects.select_related('user').get(token=token)
+            if token_obj:
+                token_obj.delete()
+                return Response({"message": "Token deleted successfully"})
+        except Token.DoesNotExist:
+            return Response({"message": "Unable to delete token"})
+    return Response({"message": "send token and username and try again"})
