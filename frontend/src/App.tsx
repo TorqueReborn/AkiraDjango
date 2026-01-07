@@ -1,7 +1,7 @@
-import Home from "./Pages/Home/Home";
+import Splash from "./Pages/Splash/Splash";
 
 const Login: React.FC = () => {
-    return <><Home/></>
+    return <><Splash/></>
 }
 
 export default Login;
