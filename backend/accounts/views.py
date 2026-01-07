@@ -12,6 +12,18 @@ from .models import Token
 from .utils import generate_token
 from .serializers import UserSerializer
 
+@api_view(['GET'])
+def home(request):
+    print(request.COOKIES)
+    return Response({"message": "This is home view"})
+
+@api_view(['POST'])
+def checkToken(request):
+   token = request.data.get('token') 
+   username = request.data.get('username')
+
+   
+
 @api_view(['POST'])
 def login(request):
     token = request.data.get('token')
@@ -33,11 +45,6 @@ def login(request):
     response = Response()
     response.set_cookie("token", token.token, samesite="None", secure=True)
     return response
-
-@api_view(['GET'])
-def home(request):
-    print(request.COOKIES)
-    return Response({"message": "This is home view"})
 
 @api_view(['POST'])
 def register(request):
