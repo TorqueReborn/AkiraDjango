@@ -37,12 +37,13 @@ class LoginView(APIView):
             status=status.HTTP_201_CREATED
         )
 
-        response.set_cookie("token", "This is a token")
+        response.set_cookie("token", "This is a token", samesite="None", secure=True)
 
         return response
 
 class HomeView(APIView):
-    def post(self, request):
+    def get(self, request):
+        print(request.COOKIES)
         return Response({"message": "This is home view"})
 
 class RegisterView(APIView):

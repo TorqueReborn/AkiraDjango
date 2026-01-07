@@ -1,22 +1,40 @@
-import React, { useEffect } from 'react'
 
 const Test = () => {
-    useEffect(() => {
 
-    }, [])
-
-    const setCookie = () => {
-        const setCookie = async () => {
-            const response = await fetch('http://127.0.0.1:8000/test/set_cookie/', { credentials: "include" })
+    const sendCookie = () => {
+        const send = async () => {
+            const response = await fetch('http://127.0.0.1:8000/api/home/', { credentials: "include" })
             console.log(await response.json())
         }
-        setCookie();
+        send();
+    }
+
+    const createCookie = () => {
+
+        const create = async () => {
+            const response = await fetch('http://127.0.0.1:8000/api/login/', {
+                method: 'POST',
+                credentials: 'include', // important for cookies / session auth
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: 'ghost',
+                    password: '12345678',
+                }),
+            });
+
+            const data = await response.json();
+            console.log(data);
+        };
+        create();
     }
 
     return (
         <>
             <div>Test</div>
-            <button onClick={setCookie}>Set Cookie</button>
+            <button onClick={sendCookie}>Send Cookie</button><br />
+            <button onClick={createCookie}>Create Cookie</button>
         </>
     )
 }
