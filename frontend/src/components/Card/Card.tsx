@@ -7,9 +7,11 @@ type CardProps = {
 
 const Card: React.FC<CardProps> = ({ name, thumbnail }) => {
     return (
-        <div className="bg-black text-white">
-            <img src={thumbnail} />
-            { name }
+        <div className="w-48 shrink-0">
+            <div className="line-clamp-1 text-center">
+                <img src={thumbnail} className="w-48 h-72" />
+                {name}
+            </div>
         </div>
     );
 }
