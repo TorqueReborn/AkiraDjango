@@ -37,6 +37,7 @@ def login(request):
 
     response = Response()
     response.set_cookie("token", token.token, samesite="None", secure=True)
+    response.set_cookie("username", token.user.username, samesite="None", secure=True)
     return response
 
 @api_view(['POST'])
@@ -47,6 +48,7 @@ def register(request):
         token = generate_token(request, user)
         response = Response()
         response.set_cookie("token", token.token, samesite="None", secure=True)
+        response.set_cookie("username", token.user.username, samesite="None", secure=True)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
