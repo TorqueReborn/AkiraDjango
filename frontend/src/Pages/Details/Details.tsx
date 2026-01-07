@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 interface AvailableEpisodesDetail {
   sub: string[]
@@ -10,8 +11,8 @@ interface AvailableEpisodesDetail {
 interface AnimeData {
   id: string
   name: string
-  englishName: string
   thumbnail: string
+  englishName: string
   description: string
   availableEpisodesDetail: AvailableEpisodesDetail
 }
@@ -19,6 +20,11 @@ interface AnimeData {
 const Details = () => {
   const {id} = useParams()
   const [animeData, setAnimeData] = useState<AnimeData>()
+  const navigate = useNavigate()
+
+  const handleClick = (episode: string) => {
+    navigate(`/watch/${id}/${episode}`)
+  }
 
   useEffect(() => {
     const getDetails = async () => {
@@ -35,9 +41,9 @@ const Details = () => {
         <img src={animeData.thumbnail}/>
         {animeData.englishName} <br/>
         {animeData.description} <br />
-        sub: {animeData.availableEpisodesDetail.sub.map((data) => (<button className='bg-white text-black p-4'>{data}</button>))} <br />
-        dub: {animeData.availableEpisodesDetail.dub.map((data) => (<button className='bg-white text-black p-4'>{data}</button>))} <br />
-        raw: {animeData.availableEpisodesDetail.raw.map((data) => (<button className='bg-white text-black p-4'>{data}</button>))} <br />
+        sub: {animeData.availableEpisodesDetail.sub.map((data) => (<button className='bg-white text-black p-4' onClick={() => handleClick(data)}>{data}</button>))} <br />
+        dub: {animeData.availableEpisodesDetail.dub.map((data) => (<button className='bg-white text-black p-4' onClick={() => handleClick(data)}>{data}</button>))} <br />
+        raw: {animeData.availableEpisodesDetail.raw.map((data) => (<button className='bg-white text-black p-4' onClick={() => handleClick(data)}>{data}</button>))} <br />
       </div>)}
     </div>
   )
