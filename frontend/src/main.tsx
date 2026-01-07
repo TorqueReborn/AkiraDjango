@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import Watch from './Pages/Watch/Watch.tsx'
 import Details from "./Pages/Details/Details.tsx"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -13,6 +14,9 @@ const router = createBrowserRouter([
   }, {
     path: '/:id',
     element: <Details/>
+  }, {
+    path: '/watch/:id/:episode',
+    element: <Watch/>
   }
 ])
 
