@@ -95,7 +95,7 @@ def details(request):
     QUERY = """
         query($id: String!){
             show(_id: $id) {
-                _id,name,englishName,thumbnail,description
+                _id,name,englishName,thumbnail,description,availableEpisodesDetail
             }
         }
         """
