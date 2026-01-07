@@ -57,7 +57,7 @@ def logout(request):
     username = request.data.get('username')
     if token and username:
         try:
-            token_obj = Token.objects.select_related('user').get(token=token)
+            token_obj = Token.objects.get(user__username=username, token=token)
             if token_obj:
                 token_obj.delete()
                 return Response({"message": "Token deleted successfully"})
