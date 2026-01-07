@@ -8,8 +8,8 @@ from django.contrib.auth import authenticate
 
 # Custom
 from .models import Token
-from .utils import get_agent
 from .serializers import UserSerializer
+from .utils import get_agent, generate_token
 
 class LoginView(APIView):
     def post(self, request):
@@ -22,7 +22,7 @@ class LoginView(APIView):
         if not user:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         
-        token = Token.objects.create(user=user, os=get_agent(request))
+        token = generate_token(request, user)
         token_count = Token.objects.filter(user=user).count()
         if token_count > 4:
             Token.objects.filter(user=user).order_by('created_at').first().delete()
@@ -41,7 +41,7 @@ class RegisterView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            token = Token.objects.create(user=user, os=get_agent(request))
+            token = generate_token(request, user)
             return Response(
                 {"token": token.token},
                 status=status.HTTP_201_CREATED

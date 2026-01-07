@@ -1,3 +1,5 @@
+from .models import Token
+
 def get_agent(request):
     agent = request.META.get('HTTP_USER_AGENT', 'Anonymous')
         
@@ -13,3 +15,6 @@ def get_agent(request):
         agent = "Anonynous"
     
     return agent
+
+def generate_token(request, user):
+    return Token.objects.create(user=user, os=get_agent(request))
