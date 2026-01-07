@@ -86,4 +86,6 @@ def spotlight(request):
         "ids": ids
     }
     response = get_response_json(QUERY,VARIABLES)
-    return Response(response)
+    response = response['data']['showsWithIds']
+    filtered_data = [item for item in response if item.get("banner")]
+    return Response(filtered_data)
