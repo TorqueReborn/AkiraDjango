@@ -89,3 +89,18 @@ def spotlight(request):
     response = response['data']['showsWithIds']
     filtered_data = [item for item in response if item.get("banner")]
     return Response(filtered_data)
+
+@api_view(['GET'])
+def details(request):
+    QUERY = """
+        query($id: String!){
+            show(_id: $id) {
+                _id
+            }
+        }
+        """
+    VARIABLES = {
+        "id": request.GET.get('id')
+    }
+    response = get_response_json(QUERY,VARIABLES)
+    return Response(response)
