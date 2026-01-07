@@ -86,9 +86,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-AUTHENTICATION_BACKENDS = [
-    'accounts.auth_backends.TokenBackend',
-]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'accounts.auth_backends.TokenBackend',
+    ]
+}
+
 
 
 # Database
