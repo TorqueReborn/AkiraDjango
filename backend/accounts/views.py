@@ -8,8 +8,8 @@ from django.contrib.auth import authenticate
 
 # Custom
 from .models import Token
-from .serializers import UserSerializer
 from .utils import get_agent
+from .serializers import UserSerializer
 
 class LoginView(APIView):
     def post(self, request):
@@ -20,25 +20,15 @@ class LoginView(APIView):
         user = authenticate(username=username, password=password, token=token)
 
         if not user:
-            return Response(
-                {"error": "Invalid credentials"},
-                status=status.HTTP_401_UNAUTHORIZED
-            )
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         token = Token.objects.create(user=user, os=get_agent(request))
         token_count = Token.objects.filter(user=user).count()
         if token_count > 4:
-            oldest_token = Token.objects.filter(user=user).order_by('created_at').first()
-            if oldest_token:
-                oldest_token.delete()
+            Token.objects.filter(user=user).order_by('created_at').first().delete()
 
-        response = Response(
-            {"token": token.token},
-            status=status.HTTP_201_CREATED
-        )
-
-        response.set_cookie("token", "This is a token", samesite="None", secure=True)
-
+        response = Response()
+        response.set_cookie("token", token.token, samesite="None", secure=True)
         return response
 
 class HomeView(APIView):
