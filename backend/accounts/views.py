@@ -41,6 +41,10 @@ class LoginView(APIView):
 
         return response
 
+class HomeView(APIView):
+    def post(self, request):
+        return Response({"message": "This is home view"})
+
 class RegisterView(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
