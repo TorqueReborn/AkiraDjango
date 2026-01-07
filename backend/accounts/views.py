@@ -45,10 +45,8 @@ def register(request):
     if serializer.is_valid():
         user = serializer.save()
         token = generate_token(request, user)
-        return Response(
-            {"token": token.token},
-            status=status.HTTP_201_CREATED
-        )
+        response = Response()
+        response.set_cookie("token", token.token, samesite="None", secure=True)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
