@@ -1,8 +1,7 @@
 from django.urls import path
-from .views import test_api, set_cookie, create_session
+from .views import login, test
 
 urlpatterns = [
-    path('', test_api),
-    path('set_cookie/', set_cookie),
-    path('create_session/', create_session)
+    path('login/', login, name='login'),
+    path('test/', test, name='test'),
 ]

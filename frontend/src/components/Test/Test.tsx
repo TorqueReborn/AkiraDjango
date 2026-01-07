@@ -30,11 +30,33 @@ const Test = () => {
         create();
     }
 
+    const login = () => {
+
+        const testLogin = async () => {
+            const response = await fetch('http://127.0.0.1:8000/test/login/', {
+                method: 'POST',
+                credentials: 'include', // important for cookies / session auth
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: 'ghost',
+                    password: '12345678',
+                }),
+            });
+
+            const data = await response.json();
+            console.log(data);
+        };
+        testLogin();
+    }
+
     return (
         <>
             <div>Test</div>
             <button onClick={sendCookie}>Send Cookie</button><br />
-            <button onClick={createCookie}>Create Cookie</button>
+            <button onClick={createCookie}>Create Cookie</button> <br />
+            <button onClick={login}>Login</button>
         </>
     )
 }
