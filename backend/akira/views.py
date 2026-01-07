@@ -32,3 +32,24 @@ def recent(request):
         for edge in edges
     ]
     return Response(fixed_thumbnails)
+
+@api_view(['GET'])
+def trending(request):
+    QUERY = """
+        query($type: VaildPopularTypeEnumType!, $size: Int!, $dateRange: Int!){
+            queryPopular(type: $type, size: $size, dateRange: $dateRange) {
+                recommendations {
+                    anyCard {
+                        _id,name,englishName,thumbnail,banner
+                    }
+                }
+            }
+        }
+    """
+    VARIABLES = {
+        "type": "anime",
+        "size": 20,
+        "dateRange": 1
+    }
+    response = get_response_json(QUERY,VARIABLES)
+    return Response(item['anyCard'] for item in response['data']['queryPopular']['recommendations'])
