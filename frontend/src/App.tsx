@@ -1,5 +1,7 @@
+import Home from "./Pages/Home/Home";
+
 const Login: React.FC = () => {
-    return <>This is home</>
+    return <><Home/></>
 }
 
 export default Login;
