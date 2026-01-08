@@ -8,6 +8,7 @@ import Search from './Pages/Search/Search.tsx'
 import Details from './Pages/Details/Details.tsx'
 import SavedLogins from './Pages/SavedLogins/SavedLogins.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Favorites from './Pages/Favorites/Favorites.tsx'
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,9 @@ const router = createBrowserRouter([
   }, {
     path: '/saved-logins',
     element: <SavedLogins/>
+  }, {
+    path: '/favorites',
+    element: <Favorites/>
   }
 ])
 
