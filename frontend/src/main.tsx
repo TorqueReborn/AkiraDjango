@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import Watch from './Pages/Watch/Watch.tsx'
+import Login from './Pages/Login/Login.tsx'
 import Details from "./Pages/Details/Details.tsx"
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
@@ -17,6 +18,9 @@ const router = createBrowserRouter([
   }, {
     path: '/watch/:id/:episode',
     element: <Watch/>
+  }, {
+    path: '/login',
+    element: <Login/>
   }
 ])
 
