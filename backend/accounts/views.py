@@ -16,8 +16,19 @@ def home(request):
     token = request.COOKIES.get('token')
     username = request.COOKIES.get('username')
     if not username or not token:
-        return Response({"message": "User not logged in"})
-    return Response({"message": "User is logged in"})
+        return Response({"message": "User not logged in"}, status=status.HTTP_401_UNAUTHORIZED)
+    try:
+        token = Token.objects.get(token=token, user__username=username)
+        user = token.user
+        return Response({
+            "First Name": user.first_name,
+            "Last Name": user.last_name,
+            "Username": user.username,
+            "Is Active": user.is_active,
+            "Date Joined": user.date_joined
+        })
+    except Token.DoesNotExist:
+        return Response({"message": "Token invalid"}, status=status.HTTP_401_UNAUTHORIZED)
 
 @api_view(['POST'])
 def login(request):
