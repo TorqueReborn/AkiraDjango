@@ -39,7 +39,7 @@ def favorites(request):
             user = User.objects.get(username=username)
             favorites = Favorites.objects.filter(user=user)
             serializer = FavoritesSerializer(favorites, many=True)
-            return Response({"favorites": serializer.data})
+            return Response(serializer.data)
         except User.DoesNotExist:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
     except Token.DoesNotExist:
