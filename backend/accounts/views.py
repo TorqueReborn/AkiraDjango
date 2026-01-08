@@ -77,3 +77,8 @@ def logout(request):
         except Token.DoesNotExist:
             return Response({"message": "Unable to delete token"})
     return Response({"message": "send token and username and try again"})
+
+@api_view(['GET'])
+def saved_logins(request):
+    print(request.COOKIES)
+    return Response()
