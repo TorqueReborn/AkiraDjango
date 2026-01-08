@@ -1,6 +1,5 @@
 # REST Framework
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -14,8 +13,11 @@ from .serializers import UserSerializer
 
 @api_view(['GET'])
 def home(request):
-    print(request.COOKIES)
-    return Response({"message": "This is home view"})
+    token = request.COOKIES.get('token')
+    username = request.COOKIES.get('username')
+    if not username or not token:
+        return Response({"message": "User not logged in"})
+    return Response({"message": "User is logged in"})
 
 @api_view(['POST'])
 def login(request):
