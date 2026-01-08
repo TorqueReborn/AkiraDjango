@@ -1,6 +1,8 @@
 import { useState } from "react"
+import Card from "../Home/components/Card";
 
 const Search = () => {
+  const [data, setData] = useState()
   const [query, setQuery] = useState<string>('')
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -8,13 +10,22 @@ const Search = () => {
   }
 
   const search = async () => {
-    console.log(query)
+    const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/search/?query=${query}`);
+    const data = await response.json();
+    setData(data);
   }
 
   return (
     <div>
-      <input type="text" onChange={handleChange}/>
+      <input type="text" onChange={handleChange} />
       <button onClick={search}>Search</button>
+      <div>
+        {data && (
+          data.map(d => (
+            <Card name={d.name} thumbnail={d.thumbnail}/>
+          ))
+        )}
+      </div>
     </div>
   )
 }
