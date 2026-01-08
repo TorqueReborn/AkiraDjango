@@ -3,6 +3,7 @@ from accounts.models import Token
 
 from akira.models import Anime
 from akira.models import Favorites
+from .serializers import FavoritesSerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -37,8 +38,8 @@ def favorites(request):
         try:
             user = User.objects.get(username=username)
             favorites = Favorites.objects.filter(user=user)
-            print(favorites)
-            return Response({"favorites": "favorites"})
+            serializer = FavoritesSerializer(favorites, many=True)
+            return Response({"favorites": serializer.data})
         except User.DoesNotExist:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
     except Token.DoesNotExist:
