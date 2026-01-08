@@ -123,8 +123,8 @@ def watch(request):
     """
     VARIABLES = {
         "showId": request.GET.get('id'),
-        "translationType": 'sub',
-        "episodeString": '1'
+        "episodeString": request.GET.get('episode'),
+        "translationType": request.GET.get('translationType')
     }
     response = get_response_json(QUERY,VARIABLES)
     sourceUrls = response['data']['episode']['sourceUrls']

@@ -7,7 +7,7 @@ const Watch = () => {
 
   useEffect(() => {
     const getData = async () => {
-      let response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/watch/?id=${id}`)
+      let response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/watch/?id=${id}&episode=${episode}&translationType=sub`)
       let json = await response.json()
       response = await fetch(json[0])
       json = await response.json()
