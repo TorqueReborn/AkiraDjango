@@ -1,3 +1,4 @@
+from .models import Token
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
@@ -16,3 +17,8 @@ class UserSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user
+
+class TokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Token
+        fields = '__all__'

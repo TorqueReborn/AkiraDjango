@@ -9,7 +9,7 @@ from django.contrib.auth import authenticate
 # Custom
 from .models import Token
 from .utils import generate_token
-from .serializers import UserSerializer
+from .serializers import UserSerializer, TokenSerializer
 
 @api_view(['GET'])
 def home(request):
@@ -88,8 +88,8 @@ def saved_logins(request):
             token_obj = Token.objects.get(user__username=username, token=token)
             if token_obj:
                 tokens = Token.objects.filter(user__username=username)
-                print(tokens)
-                return Response({"tokens": ""})
+                serializer = TokenSerializer(tokens, many=True)
+                return Response({"logins": serializer.data})
         except Token.DoesNotExist:
             return Response()
     return Response({"message": "send token and username and try again"})
