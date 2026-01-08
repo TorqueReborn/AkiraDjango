@@ -9,7 +9,7 @@ interface AvailableEpisodesDetail {
 }
 
 interface AnimeData {
-  id: string
+  _id: string
   name: string
   thumbnail: string
   englishName: string
@@ -53,7 +53,7 @@ const Details = () => {
     <div>
       {animeData && (
       <div>
-        <button onClick={() => addToFavorites(animeData.id, animeData.name)}>Add to Favorites</button>
+        <button onClick={() => addToFavorites(animeData._id, animeData.name)}>Add to Favorites</button>
         <img src={animeData.thumbnail}/>
         {animeData.englishName} <br/>
         {animeData.description} <br />

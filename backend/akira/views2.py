@@ -10,11 +10,15 @@ from rest_framework.response import Response
 def favorite(request):
     token = request.COOKIES.get('token')
     username = request.COOKIES.get('username')
+
+    animeId = request.data.get('animeId')
+    animeName = request.data.get('name')
     try:
         token_obj = Token.objects.get(token=token, user__username=username)
         try:
             user = User.objects.get(username=username)
-            print(user)
+            anime = Anime.objects.get_or_create(animeId=animeId, name=animeName)
+            print(anime)
         except User.DoesNotExist:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
     except Token.DoesNotExist:
