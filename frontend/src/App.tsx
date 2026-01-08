@@ -2,6 +2,7 @@ import Nav from "./Nav/Nav";
 import { useEffect } from "react";
 import Spotlight from "./Pages/Home/Spotlight/Spotlight";
 import Trending from "./Pages/Home/Trending/Trending";
+import Search from "./Pages/Search/Search";
 
 const Login: React.FC = () => {
     useEffect(() => {
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
 
     return <>
         <Nav/>
+        <Search/>
         <Spotlight/>
         <Trending/>
     </>
