@@ -16,7 +16,8 @@ const Login: React.FC = () => {
       body: JSON.stringify({
         username,
         password
-      })
+      }),
+      credentials: "include",
     })
     console.log(await response.text())
   }
