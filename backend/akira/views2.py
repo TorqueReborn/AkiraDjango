@@ -26,3 +26,20 @@ def favorite(request):
     except Token.DoesNotExist:
         return Response(status=status.HTTP_401_UNAUTHORIZED)
     return Response()
+
+@api_view(['GET'])
+def favorites(request):
+    token = request.COOKIES.get('token')
+    username = request.COOKIES.get('username')
+
+    try:
+        Token.objects.get(token=token, user__username=username)
+        try:
+            user = User.objects.get(username=username)
+            favorites = Favorites.objects.filter(user=user)
+            print(favorites)
+            return Response({"favorites": "favorites"})
+        except User.DoesNotExist:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+    except Token.DoesNotExist:
+        return Response(status=status.HTTP_401_UNAUTHORIZED)

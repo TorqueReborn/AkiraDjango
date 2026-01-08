@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views2 import favorite
+from .views2 import favorite, favorites
 from .views import recent, trending, spotlight, details, watch, search
 
 urlpatterns = [
@@ -11,5 +11,6 @@ urlpatterns = [
     path('details/', details, name='details'),
     path('favorite/', favorite, name='favorite'),
     path('trending/', trending, name='trending'),
+    path('favorites/', favorites, name='favorites'),
     path('spotlight/', spotlight, name='spotlight'),
 ]
