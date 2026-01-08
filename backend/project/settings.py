@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
     # Custom apps
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+    'akira.apps.AkiraConfig',
 ]
 
 MIDDLEWARE = [
