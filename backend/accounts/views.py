@@ -81,4 +81,15 @@ def logout(request):
 @api_view(['GET'])
 def saved_logins(request):
     print(request.COOKIES)
-    return Response()
+    token = request.COOKIES.get('token')
+    username = request.COOKIES.get('username')
+    if token and username:
+        try:
+            token_obj = Token.objects.get(user__username=username, token=token)
+            if token_obj:
+                tokens = Token.objects.filter(user__username=username)
+                print(tokens)
+                return Response({"tokens": ""})
+        except Token.DoesNotExist:
+            return Response()
+    return Response({"message": "send token and username and try again"})
