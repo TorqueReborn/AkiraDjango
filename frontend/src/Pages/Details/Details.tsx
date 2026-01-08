@@ -34,17 +34,33 @@ const Details = () => {
     }
     getDetails()
   }, [])
+
+  const addToFavorites = async (animeId: string) => {
+    const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/favorite/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        animeId
+      }),
+      credentials: "include",
+    })
+  }
   
   return (
     <div>
-      {animeData && (<div>
+      {animeData && (
+      <div>
+        <button onClick={() => addToFavorites(animeData.id)}>Add to Favorites</button>
         <img src={animeData.thumbnail}/>
         {animeData.englishName} <br/>
         {animeData.description} <br />
         sub: {animeData.availableEpisodesDetail.sub.map((data) => (<button className='bg-white text-black p-4' onClick={() => handleClick(data)}>{data}</button>))} <br />
         dub: {animeData.availableEpisodesDetail.dub.map((data) => (<button className='bg-white text-black p-4' onClick={() => handleClick(data)}>{data}</button>))} <br />
         raw: {animeData.availableEpisodesDetail.raw.map((data) => (<button className='bg-white text-black p-4' onClick={() => handleClick(data)}>{data}</button>))} <br />
-      </div>)}
+      </div>
+    )}
     </div>
   )
 }
