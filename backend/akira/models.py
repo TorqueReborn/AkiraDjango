@@ -12,5 +12,8 @@ class Favorites(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='favorites')
     anime = models.ForeignKey(Anime, on_delete=models.CASCADE, related_name='favorites')
 
+    class Meta:
+        unique_together = ('user', 'anime')
+
     def __str__(self):
-        return self.anime.name
+        return f"{self.user.username} - {self.anime.name}"
