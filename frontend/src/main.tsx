@@ -4,7 +4,8 @@ import './index.css'
 import App from './App.tsx'
 import Watch from './Pages/Watch/Watch.tsx'
 import Login from './Pages/Login/Login.tsx'
-import Details from "./Pages/Details/Details.tsx"
+import Search from './Pages/Search/Search.tsx'
+import Details from './Pages/Details/Details.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
@@ -21,6 +22,9 @@ const router = createBrowserRouter([
   }, {
     path: '/login',
     element: <Login/>
+  }, {
+    path: '/search',
+    element: <Search/>
   }
 ])
 
