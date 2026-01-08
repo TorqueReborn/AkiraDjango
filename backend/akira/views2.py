@@ -1,6 +1,8 @@
 from accounts.models import User
 from accounts.models import Token
+
 from akira.models import Anime
+from akira.models import Favorites
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -14,11 +16,11 @@ def favorite(request):
     animeId = request.data.get('animeId')
     animeName = request.data.get('name')
     try:
-        token_obj = Token.objects.get(token=token, user__username=username)
+        Token.objects.get(token=token, user__username=username)
         try:
             user = User.objects.get(username=username)
             anime = Anime.objects.get_or_create(animeId=animeId, name=animeName)
-            print(anime)
+            Favorites.objects.get_or_create(user=user, anime=anime[0])
         except User.DoesNotExist:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
     except Token.DoesNotExist:
