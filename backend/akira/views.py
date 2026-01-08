@@ -135,3 +135,33 @@ def watch(request):
             if not "https" in decrypted:
                 sources.append("https://allanime.day" + decrypt(source['sourceUrl']).replace("clock", "clock.json"))
     return Response(sources)
+
+@api_view(['GET'])
+def search(request):
+    QUERY = """
+    query($search: SearchInput!){
+        shows(search: $search) {
+            edges {
+                _id,name,englishName,thumbnail
+            }
+        }
+    }
+    """
+    VARIABLES = {
+        "search": {
+            "query": request.GET.get('query')
+        }
+    }
+    response = get_response_json(QUERY,VARIABLES)
+    edges = response['data']['shows']['edges']
+    fixed_thumbnails = [
+        {
+            **edge,
+            "englishName": edge["englishName"] or edge["name"],
+            "thumbnail": edge["thumbnail"]
+            if edge["thumbnail"].startswith("http")
+            else f"https://wp.youtube-anime.com/aln.youtube-anime.com/{edge['thumbnail']}"
+        }
+        for edge in edges
+    ]
+    return Response(fixed_thumbnails)
