@@ -6,6 +6,7 @@ import Watch from './Pages/Watch/Watch.tsx'
 import Login from './Pages/Login/Login.tsx'
 import Search from './Pages/Search/Search.tsx'
 import Details from './Pages/Details/Details.tsx'
+import SavedLogins from './Pages/SavedLogins/SavedLogins.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 
 const router = createBrowserRouter([
@@ -25,6 +26,9 @@ const router = createBrowserRouter([
   }, {
     path: '/search',
     element: <Search/>
+  }, {
+    path: '/saved-logins',
+    element: <SavedLogins/>
   }
 ])
 
