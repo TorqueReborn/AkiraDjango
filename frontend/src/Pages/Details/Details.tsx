@@ -35,14 +35,15 @@ const Details = () => {
     getDetails()
   }, [])
 
-  const addToFavorites = async (animeId: string) => {
-    const response = await fetch(`${import.meta.env.VITE_BACK_END_URL}/favorite/`, {
+  const addToFavorites = async (animeId: string, name: string) => {
+    await fetch(`${import.meta.env.VITE_BACK_END_URL}/favorite/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        animeId
+        animeId,
+        name
       }),
       credentials: "include",
     })
@@ -52,7 +53,7 @@ const Details = () => {
     <div>
       {animeData && (
       <div>
-        <button onClick={() => addToFavorites(animeData.id)}>Add to Favorites</button>
+        <button onClick={() => addToFavorites(animeData.id, animeData.name)}>Add to Favorites</button>
         <img src={animeData.thumbnail}/>
         {animeData.englishName} <br/>
         {animeData.description} <br />
